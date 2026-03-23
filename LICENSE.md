@@ -40,9 +40,9 @@ This Software may not be used for:
 
 ### Summary (Non-Legally Binding)
 
-> 🟢 **You are free to:** Use Nimbus, learn from it, improve it.
-> ✍️ **You must:** Credit the original author.
-> 🌐 **If public:** Public changes stay public.
+> 🟢 **You are free to:** Use Nimbus, learn from it, improve it.  
+> ✍️ **You must:** Credit the original author.  
+> 🌐 **If public:** Public changes stay public.  
 > 🛡️ **Stewardship:** The original creator remains the steward of the project.
 
 — **waleedahmedja**
