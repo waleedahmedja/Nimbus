@@ -1,62 +1,54 @@
 # Code of Conduct
 
-## Pledge
-
-Nimbus is built on craft and restraint. This community should reflect the same.
-
-We pledge to make participation a professional, respectful experience for everyone — regardless of experience level, background, or opinion.
+Nimbus is a personal project with a small, focused community. This code of conduct is short because the expectations are simple: be a professional.
 
 ---
 
-## Standards
+## The standard
 
-**Expected:**
-- Respectful, direct communication
-- Constructive feedback focused on the work, not the person
-- Accepting accountability when wrong
-- Prioritising the quality of the project over individual preferences
+Participate the way you would at a job you respect.
 
-**Not acceptable:**
-- Harassment, discrimination, or personal attacks of any kind
-- Sexualised language or imagery
-- Deliberate intimidation or hostility
-- Publishing private information without consent
-- Conduct that would be inappropriate in a professional engineering environment
+That means:
+- Respectful, direct communication — disagree with ideas, not people
+- Constructive feedback focused on the work
+- Accepting that maintainer decisions are final
+- Giving credit when you build on someone else's work
+- Asking before assuming
+
+That means not:
+- Personal attacks, harassment, or hostility
+- Discriminatory language or behaviour of any kind
+- Publishing private information about anyone without their consent
+- Conduct you wouldn't want attributed to you professionally
+
+The technical bar for Nimbus is high. The interpersonal bar is the same.
 
 ---
 
 ## Scope
 
-This applies to all project spaces: GitHub issues, pull requests, discussions, and any public context where someone is representing the Nimbus project.
+This applies to all Nimbus community spaces: GitHub Issues, Pull Requests, Discussions, and any other space where someone is representing or interacting with this project.
 
 ---
 
 ## Enforcement
 
-Violations of this Code of Conduct may result in:
+The project maintainer — **waleedahmedja** — has final authority on enforcement decisions.
 
-1. A private or public warning
-2. Temporary suspension from contributing
-3. Permanent ban from the project
+Violations may result in:
+1. A private note explaining the issue
+2. A formal warning
+3. Temporary or permanent removal from community spaces
 
-The project maintainer (waleedahmedja) has final authority on enforcement decisions.
-
----
-
-## Reporting
-
-If you experience or witness behaviour that violates this Code of Conduct, please report it by opening a private GitHub Issue or contacting the maintainer directly.
-
-All reports will be handled with discretion and confidentiality.
+Reports can be made by opening a private GitHub Issue or contacting the maintainer directly. All reports are handled with discretion.
 
 ---
 
-**Escalation:**
+## Why this exists
 
-1. **Correction** — private note explaining the issue
-2. **Warning** — formal notice with behavioural expectations
-3. **Temporary ban** — time-limited removal from community spaces
-4. **Permanent ban** — for repeated or severe violations
+Not because problems are expected — but because having a written standard makes the implicit explicit. Everyone knows what to expect. There's no ambiguity about what kind of space this is.
+
+It's a space for people who care about making good software.
 
 ---
 
