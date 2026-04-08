@@ -2,8 +2,9 @@
 
 # N I M B U S
 
-**A weather app that shows you the sky, not a dashboard.**
-Built with Jetpack Compose. Designed to be accurate, calm, and worth a second glance.
+**Not your average weather app.**
+
+Built with Kotlin and Jetpack Compose. Designed with intent.
 
 <br/>
 
@@ -23,17 +24,10 @@ Built with Jetpack Compose. Designed to be accurate, calm, and worth a second gl
 
 Most weather apps show you a number and a sun icon.
 
-The good ones added personality. The great ones added precision. Carrot made you laugh. Dark Sky made you trust it.
-
-Nimbus does neither — and both.
-
-It shows you the sky. A generative canvas that shifts with time of day, weather condition, and your system theme. A temperature number so large it feels architectural. A single AI-generated sentence that sounds like someone who checked the window this morning.
+Nimbus fills a gap that still exists on Android — a weather app built with the craft and restraint you'd expect from the best iOS apps. Nothing to prove. No rotating personality that wears out after two weeks. No gamification, no streaks, no nudges.
 
 No comedy. No constant noise. Just weather, told with craft.
 
-> *Does this app make you stop and look at it for a second?*
-
-That's the only metric that matters.
 
 ---
 
@@ -41,24 +35,31 @@ That's the only metric that matters.
 
 | Feature | Description |
 |---|---|
-| **Sky Canvas** | Generative Compose Canvas — shifts with time of day, condition, and system theme |
-| **Daily Sentence** | One AI-generated line per day. Human-sounding. Never robotic. Cached so it doesn't burn API budget. |
-| **Rain Timeline** | Minute-by-minute precipitation bar — the Dark Sky feature, rebuilt natively in Compose |
-| **7-Day Spline** | Temperature across the week rendered as a landscape curve, not a table |
-| **Sunrise / Sunset Arc** | Drawn on Canvas, tracking actual solar position in real time |
-| **Air Quality** | One word. Good. Fair. Poor. |
-| **System-Adaptive Theme** | Full light and dark mode. Follows Android system preference. Both feel native. |
-| **Squircle Shape System** | Every interactive surface uses a consistent squircle corner token |
+| **Sky canvas** | Generative Compose `Canvas` — time-aware, condition-reactive, system-theme-adaptive |
+| **Daily sentence** | Searches a library of lines, selected by condition + time of day. No AI. No network. Instant. |
+| **Real air quality** | European AQI from Open-Meteo — five levels, hidden when data is unavailable |
+| **Rain timeline** | Minute-by-minute precipitation bar for the next 24 hours |
+| **7-day spline** | Temperature across the week as a landscape curve, not a table |
+| **Sunrise / sunset arc** | Drawn on canvas at the correct solar position |
+| **Multiple locations** | Up to 3 saved locations. Swipe to switch. Sky transitions between them. |
+| **City search** | Forward geocoding via Nominatim — add any city by name |
+| **Pull to refresh** | Standard gesture, clean indicator |
+| **Hourly detail** | Full 48-hour breakdown with condition, temperature, and precipitation per hour |
+| **Weekly detail** | Full 7-day breakdown with high, low, rain, UV per day |
+| **System-adaptive theme** | Full light and dark mode. Follows Android system preference. Both feel native. |
+| **Squircle design system** | Consistent 32dp corner radius on every interactive surface |
+| **Onboarding** | Shown once on first install. Never again. |
 
 ---
 
 ## What It Doesn't Do
 
-- Push notifications about things you already knew
+- Notifications that scream at you
 - Gamification, streaks, or engagement mechanics
-- Rotating personality that gets old in two weeks
-- Settings pages longer than the forecast
 - Radar maps nobody actually uses
+- Settings pages longer than the forecast
+- Personality that wears out after two weeks
+- Ads of any kind
 
 ---
 
@@ -67,101 +68,76 @@ That's the only metric that matters.
 Nimbus follows clean MVVM with unidirectional data flow throughout.
 
 ```
-app/
 ├── data/
-│   ├── api/              # Open-Meteo + Claude API via Retrofit
-│   ├── repository/       # WeatherRepository — single source of truth
-│   └── datastore/        # UserPreferences — units only
+│   ├── api/          # Retrofit interfaces — Open-Meteo, Nominatim
+│   ├── datastore/    # UserPreferences — units, locations, city name cache
+│   └── repository/   # Single network call returns full forecast bundle
 ├── domain/
-│   ├── model/            # Weather, HourlyForecast, DailyForecast, SkyCondition
-│   └── usecase/          # One use case per data concern
+│   ├── model/        # Weather, HourlyForecast, DailyForecast, SavedLocation, SkyCondition
+│   └── usecase/      # GetForecastBundleUseCase, GetDailySentenceUseCase, SearchCityUseCase
 ├── presentation/
-│   ├── home/             # HomeScreen, HomeViewModel, HomeUiState
-│   ├── hourly/           # HourlyScreen, HourlyViewModel
-│   ├── weekly/           # WeeklyScreen, WeeklyViewModel
-│   └── settings/         # SettingsScreen — units toggle only
+│   ├── home/         # HomeScreen, HomeViewModel, HomeUiState
+│   ├── hourly/       # HourlyScreen
+│   ├── weekly/       # WeeklyScreen
+│   ├── onboarding/   # OnboardingScreen — shown once
+│   ├── location/     # LocationPermissionScreen
+│   ├── settings/     # SettingsScreen
+│   └── legal/        # LegalScreen — privacy policy + terms
 ├── ui/
-│   ├── canvas/           # SkyCanvas, SkyPalette, CloudLayer, SunMoonArc
-│   ├── components/       # TemperatureDisplay, RainTimeline, WeekSpline, WaleedSignature
-│   └── theme/            # Theme, Color, Type, Shape
-└── util/                 # SolarCalculator, LunarCalculator, WeatherMapper
+│   ├── canvas/       # SkyCanvas, SkyPalette, CloudLayer, SunMoonArc
+│   ├── components/   # 10 shared composables
+│   ├── navigation/   # NimbusNavHost — 8 routes
+│   └── theme/        # Theme, Color, Type, Shape, Spacing
+├── di/               # Hilt modules
+└── util/             # WeatherMapper, SolarCalculator, LunarCalculator, WeatherSentences
 ```
-
-Full breakdown in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 **Key principles:**
 - UI reads from `StateFlow` — never mutates ViewModel state directly
-- All persistence is async via DataStore — no blocking main thread calls
-- Every repository function returns `Result<T>` — errors surface cleanly, never crash
-- Sky canvas recomposes only on input change — not every frame
+- One Open-Meteo call returns weather + hourly + daily + AQI together
+- Circuit breaker prevents hammering a failing API
+- Three-tier cache: fresh (< 30min) / stale / very stale
+- Sentences are local — no network, no loading state, always instant
 
 ---
 
-## Design
+## Built with
 
-The UI is built around one principle: **the sky is the interface**.
+| Layer | Choice |
+|---|---|
+| Language | Kotlin 2.0+ |
+| UI | Jetpack Compose + Material3 |
+| Architecture | MVVM + StateFlow + Hilt |
+| Weather data | Open-Meteo (free, no API key) |
+| Geocoding | Nominatim / OpenStreetMap (free, no API key) |
+| HTTP | Retrofit + OkHttp |
+| Serialisation | kotlinx.serialization |
+| Persistence | DataStore Preferences |
+| Location | Fused Location Provider |
+| Navigation | Compose Navigation |
 
-- Full-bleed generative canvas behind the entire home screen — not a background, the UI
-- OLED-first dark mode — true `#000000` backgrounds, every pixel off is battery saved
-- Single accent: Apple Yellow `#FFD60A` for temperature highs and key highlights
-- Light mode lifts the same palette — same design language, different atmosphere
-- Typography: DM Serif Display for the temperature, DM Sans everywhere else
-- Squircle corner token (`32.dp`) on every button — consistent, slightly unexpected
-- `waleedahmedja` signature at the bottom of scroll — monospaced, 25% opacity, for people who look
-
----
-
-## Built With
-
-- **Kotlin 2.0+** + Coroutines + Flow
-- **Jetpack Compose** + Material3
-- **Open-Meteo** — free, no API key, accurate
-- **Claude API** (Haiku) — one call per day for the daily sentence
-- **Fused Location Provider** — single auto-detected location
-- **Nominatim** — free OpenStreetMap geocoding
-- **Retrofit + OkHttp** — networking
-- **kotlinx.serialization** — JSON parsing
-- **Hilt** — dependency injection
-- **DataStore** — async preferences
-- **MVVM + StateFlow** — architecture
+No analytics. No crash reporting. No third-party tracking of any kind.
 
 ---
 
-## Getting Started
+## Getting started
 
 **Prerequisites:**
 - Android Studio Hedgehog or later
 - Android SDK 26+
-- A Claude API key (for the daily sentence)
+- A device or emulator running API 26+
 
-**Setup:**
+**Clone and run:**
 
 ```bash
 git clone https://github.com/waleedahmedja/nimbus.git
 cd nimbus
 ```
 
-Add your Claude API key to `local.properties`:
+Open in Android Studio. Sync Gradle. Run on a physical device for the canvas to perform correctly — the emulator is sufficient for functionality but not for 60fps canvas validation.
 
-```properties
-CLAUDE_API_KEY=your_key_here
-```
+No API keys required. Open-Meteo and Nominatim are both free and keyless.
 
-Open in Android Studio and run on any device or emulator with API 26+.
-
----
-
-## Documentation
-
-| File | What's inside |
-|---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Every structural decision, explained |
-| [DESIGN.md](DESIGN.md) | Sky palette, typography, spacing, shape tokens |
-| [SKYCANVAS.md](SKYCANVAS.md) | How the canvas renderer works, the solar position maths |
-| [ROADMAP.md](ROADMAP.md) | V1 scope, V2 ideas, what's deliberately not shipping |
-| [PRIVACY.md](PRIVACY.md) | What Nimbus does and doesn't do with your data |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute without breaking the philosophy |
-| [CHANGELOG.md](CHANGELOG.md) | Version history |
 
 ---
 
