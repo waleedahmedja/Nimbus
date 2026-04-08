@@ -58,6 +58,8 @@ Every new dependency requires justification in the PR description. If the same r
 
 ## UI and design rules
 
+Read [DESIGN.md](DESIGN.md) before touching any screen. The visual language is specific and strict.
+
 **Colours:**
 - Dark mode backgrounds: `#000000` — not `#1A1A1A`, not `#121212`, not "close enough"
 - Accent: Apple Yellow `#FFD60A` (dark) / `#D4A017` (light). One accent. No exceptions.
@@ -152,6 +154,8 @@ Open a GitHub Issue and include:
 
 Open a Discussion, not an Issue. Issues are for confirmed bugs and accepted feature work only.
 
+Read [ROADMAP.md](ROADMAP.md) before opening a feature request. If what you're asking for is in the "will never ship" section, please reconsider.
+
 ---
 
 ## Questions
@@ -161,10 +165,8 @@ Open a Discussion. The project has a clear philosophy and a maintainer who is ha
 ---
 
 Nimbus respects craft.
+Contributions should too.
 
 ---
-
--- **waleedahmedja**
-Contributions should too.
 
 — **waleedahmedja**
